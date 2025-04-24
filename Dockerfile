@@ -15,6 +15,13 @@ ENV DEBIAN_FRONTEND="noninteractive"
 # This is not needed if building on a system that does not  use a proxy.
 #   apt can be configured to read from archives via https.
 #
+####################################3
+# Accept proxy build arguments
+ENV no_proxy=localhost,127.0.0.0/8
+ENV https_proxy=http://proxy.tch.harvard.edu:3128
+ENV http_proxy=http://proxy.tch.harvard.edu:3128
+################################
+
 
 LABEL maintainer="warfield@crl.med.harvard.edu"
 LABEL vendor="Computational Radiology Laboratory"
@@ -46,6 +53,14 @@ COPY retrieve_dicoms.py /usr/local/bin
 RUN chmod a+rx /usr/local/bin/sort_dicoms.py /usr/local/bin/uncompress_dicoms.py /usr/local/bin/dicom_tree_to_nifti.py /usr/local/bin/retrieve_dicoms.py
 
 COPY json_dicom_info.py /usr/local/bin
+
+#############################
+COPY csv_dicom_info.py /usr/local/bin
+COPY csv_for_eachstudy_selected_seriesinfo.py /usr/local/bin
+COPY csv_for_eachstudy_seriesinfo_presence.py /usr/local/bin
+##############################
+
+
 RUN chmod a+rx /usr/local/bin/json_dicom_info.py
 
 ENV PATH=${PATH}:/usr/local/bin
